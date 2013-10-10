@@ -1,0 +1,458 @@
+Script started on Tue Oct  8 10:26:22 2013
+[?1034h[2013-10-08.10:26 ~/src/bcdo-training amoroney@] $ 
+[2013-10-08.10:45 ~/src/bcdo-training amoroney@] $ 
+[2013-10-08.10:45 ~/src/bcdo-training amoroney@] $ 
+[2013-10-08.10:45 ~/src/bcdo-training amoroney@] $ ls
+Makefile	acts		boxen		puppet
+README.md	bin		lib
+[2013-10-08.10:47 ~/src/bcdo-training amoroney@] $ cd acts/
+[2013-10-08.10:48 ~/src/bcdo-training/acts amoroney@] $ ls
+_ex1			nose-demo-latest	vagrant-test		wk1d1.vagrpuppet
+[2013-10-08.10:48 ~/src/bcdo-training/acts amoroney@] $ ls vagrant-test/
+Vagrantfile
+[2013-10-08.10:49 ~/src/bcdo-training/acts amoroney@] $ mkdir vagr-salt
+[2013-10-08.10:50 ~/src/bcdo-training/acts amoroney@] $ cd [K[K[Kmv vagr-salt/ vsalt1/
+[2013-10-08.10:50 ~/src/bcdo-training/acts amoroney@] $ ls
+_ex1			vagrant-test		wk1d1.vagrpuppet
+nose-demo-latest	vsalt1
+[2013-10-08.10:50 ~/src/bcdo-training/acts amoroney@] $ cd vsalt1/
+[2013-10-08.10:51 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ vagrant init precise64
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+[2013-10-08.10:51 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.10:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.10:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.10:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.10:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > Vagrantfile
+> # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+> VAGRANTFILE_API_VERSION = "2"
+> 
+> Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+>   config.vm.box = "precise64"
+> 
+>   ## For masterless, mount your salt file root
+>   config.vm.synced_folder "../../salt/roots/", "/srv"
+>   ## Use all the defaults:
+>   config.vm.provision :salt do |salt|
+> Vagrantfile salt.minion_config = "salt/minion"
+> Vagrantfile salt.run_highstate = true
+> Vagrantfile # salt.verbose = true
+>   end
+> end
+> EOF
+[2013-10-08.10:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat Vagrantfile 
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+
+  ## For masterless, mount your salt file root
+  config.vm.synced_folder "../../salt/roots/", "/srv"
+  ## Use all the defaults:
+  config.vm.provision :salt do |salt|
+Vagrantfile salt.minion_config = "salt/minion"
+Vagrantfile salt.run_highstate = true
+Vagrantfile # salt.verbose = true
+  end
+end
+[2013-10-08.10:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ mkdir salt
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > salt/minion
+> master: localhost
+> file_client: local
+> EOF
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:01 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls
+Vagrantfile	salt
+[2013-10-08.11:02 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:03 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:03 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ echo $TRAINING
+
+[2013-10-08.11:03 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ export $TRAINING=
+[2013-10-08.11:03 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ export TRAINING="/Users/amoroney/src"
+[2013-10-08.11:03 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ mkdir -p $TRAINING/salt/roots/salt
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > $TRAINING/salt/roots/salt/ top.sls
+> base:
+>   '*':
+> - motd
+> EOF
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ mkdir -p $TRAINING/salt/roots/salt/motd [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kd
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > $TRAINING/salt/roots/salt/ motd/init.sls
+> /etc/motd.tail:
+>   file.managed:
+> - contents: "Welcome to your Vagrant-built virtual machine!\nManaged by SaltStack.\n"
+> - user: root
+> - group: root
+> - mode: 644
+> EOF
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.11:05 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat $TRAINING/salt/roots/salt/top.sls
+base:
+  '*':
+- motd
+[2013-10-08.11:06 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat $TRAINING/salt/roots/salt/motd/init .sls
+/etc/motd.tail:
+  file.managed:
+- contents: "Welcome to your Vagrant-built virtual machine!\nManaged by SaltStack.\n"
+- user: root
+- group: root
+- mode: 644
+[2013-10-08.11:07 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:19 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:19 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ vagrant y[Kup
+/Users/amoroney/src/bcdo-training/acts/vsalt1/Vagrantfile:11:in `block (2 levels) in <top (required)>': undefined method `Vagrantfile' for main:Object (NoMethodError)
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/plugins/kernel_v2/config/vm_provisioner.rb:42:in `call'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/plugins/kernel_v2/config/vm_provisioner.rb:42:in `initialize'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/plugins/kernel_v2/config/vm.rb:214:in `new'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/plugins/kernel_v2/config/vm.rb:214:in `provision'
+	from /Users/amoroney/src/bcdo-training/acts/vsalt1/Vagrantfile:10:in `block in <top (required)>'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/v2/loader.rb:37:in `call'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/v2/loader.rb:37:in `load'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/loader.rb:104:in `block (2 levels) in load'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/loader.rb:98:in `each'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/loader.rb:98:in `block in load'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/loader.rb:95:in `each'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/config/loader.rb:95:in `load'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/environment.rb:261:in `config_global'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/environment.rb:513:in `block in action_runner'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/action/runner.rb:28:in `call'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/action/runner.rb:28:in `run'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/environment.rb:274:in `hook'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/lib/vagrant/environment.rb:135:in `initialize'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/bin/vagrant:74:in `new'
+	from /Applications/Vagrant/embedded/gems/gems/vagrant-1.3.3/bin/vagrant:74:in `<top (required)>'
+	from /Applications/Vagrant/bin/../embedded/gems/bin/vagrant:23:in `load'
+	from /Applications/Vagrant/bin/../embedded/gems/bin/vagrant:23:in `<main>'
+[2013-10-08.12:19 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls
+Vagrantfile	salt
+[2013-10-08.12:38 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:38 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:38 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ v[Kcat Vagrantfile 
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+
+  ## For masterless, mount your salt file root
+  config.vm.synced_folder "../../salt/roots/", "/srv"
+  ## Use all the defaults:
+  config.vm.provision :salt do |salt|
+Vagrantfile salt.minion_config = "salt/minion"
+Vagrantfile salt.run_highstate = true
+Vagrantfile # salt.verbose = true
+  end
+end
+[2013-10-08.12:39 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:40 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:40 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > Vagrantfile
+> # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+> VAGRANTFILE_API_VERSION = "2"
+> 
+> Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+>   config.vm.box = "precise64"
+> 
+>   ## For masterless, mount your salt file root
+>   config.vm.synced_folder "../../salt/roots/", "/srv"
+>   ## Use all the defaults:
+>   config.vm.provision :salt do |salt|
+> salt.minion_config = "salt/minion"
+> salt.run_highstate = true
+> # salt.verbose = true
+>   end
+> end
+> EOF
+[2013-10-08.12:40 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:40 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > Vagrantfile[8PVagrantfile 
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+
+  ## For masterless, mount your salt file root
+  config.vm.synced_folder "../../salt/roots/", "/srv"
+  ## Use all the defaults:
+  config.vm.provision :salt do |salt|
+salt.minion_config = "salt/minion"
+salt.run_highstate = true
+# salt.verbose = true
+  end
+end
+[2013-10-08.12:40 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:41 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:41 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:41 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > Vagrantfile
+> # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+> VAGRANTFILE_API_VERSION = "2"
+> 
+> Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+>   config.vm.box = "precise64"
+> 
+>   ## For masterless, mount your salt file root
+>   config.vm.synced_folder "../../salt/roots/", "/srv"
+>   ## Use all the defaults:
+>   config.vm.provision :salt do |salt|
+>     salt.minion_config = "salt/minion"
+>     salt.run_highstate = true
+>     # salt.verbose = true
+>   end
+> end
+> EOF
+[2013-10-08.12:41 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:41 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat << EOF > Vagrantfile[8PVagrantfile 
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+
+  ## For masterless, mount your salt file root
+  config.vm.synced_folder "../../salt/roots/", "/srv"
+  ## Use all the defaults:
+  config.vm.provision :salt do |salt|
+    salt.minion_config = "salt/minion"
+    salt.run_highstate = true
+    # salt.verbose = true
+  end
+end
+[2013-10-08.12:41 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:43 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:43 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:43 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ cat Vagrantfile << EOF > Vagrantfile[8PVagrantfile << EOF > Vagrantfile[8PVagrantfile ls[Kvagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+[31mThere are errors in the configuration of this machine. Please fix
+the following errors and try again:
+
+vm:
+* The host path of the shared folder is missing: ../../salt/roots/
+
+[0m
+[2013-10-08.12:43 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls
+Vagrantfile	salt
+[2013-10-08.12:52 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls salt/
+minion
+[2013-10-08.12:52 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls ../
+_ex1			vagrant-test		wk1d1.vagrpuppet
+nose-demo-latest	vsalt1
+[2013-10-08.12:52 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls ../../
+Makefile	acts		boxen		puppet
+README.md	bin		lib
+[2013-10-08.12:52 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ vagrant plugin install vagrant-salt
+Installing the 'vagrant-salt' plugin. This can take a few minutes...
+[32mInstalled the plugin 'vagrant-salt (0.4.0)'![0m
+[2013-10-08.12:56 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ vagrant plugin install vagrant-saltls ../../[K[Ksalt/[Kvagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+[31mThere are errors in the configuration of this machine. Please fix
+the following errors and try again:
+
+vm:
+* The host path of the shared folder is missing: ../../salt/roots/
+
+[0m
+[2013-10-08.12:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ vagrant upplugin install vagrant-saltls ../../[K[Ksalt/[Kvagrant upcat Vagrantfile 
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+
+  ## For masterless, mount your salt file root
+  config.vm.synced_folder "../../salt/roots/", "/srv"
+  ## Use all the defaults:
+  config.vm.provision :salt do |salt|
+    salt.minion_config = "salt/minion"
+    salt.run_highstate = true
+    # salt.verbose = true
+  end
+end
+[2013-10-08.12:58 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.12:58 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/src/bcdo-training/sa lt 
+roots
+[2013-10-08.13:07 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/src/bcdo-training/sallt 
+[2013-10-08.13:08 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/src/bcdo-training/sallt 
+[2013-10-08.13:08 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:08 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/a
+amoroney/ anneppc/  
+[2013-10-08.13:08 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/a
+amoroney/ anneppc/  
+[2013-10-08.13:08 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/
+Desktop		Downloads	Movies		Pictures	PycharmProjects	boxen
+Documents	Library		Music		Public		VirtualBox VMs	src
+[2013-10-08.13:34 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ psls /Users/amoroney/src/
+bcdo-training	our-boxen
+[2013-10-08.13:34 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/src/bcdo-training/
+Makefile	acts		boxen		puppet
+README.md	bin		lib		salt
+[2013-10-08.13:35 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/src/bcdo-training/sa lt/
+[2013-10-08.13:35 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ ls /Users/amoroney/src/bcdo-training/sa lt/
+roots
+[2013-10-08.13:35 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ export PS1='[\D{%Y-%m-%d}.\A \w \u@] \$  ' 
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ bp
+bash: bp: command not found
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ bpexport PS1='[\D{%Y-%m-%d}.\A \w \u@] \$  ' [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ stty sane
+[2013-10-08.13:36 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ stty sanebp[Kexport PS1='[\D{%Y-%m-%d}.\A \w \u@] \$  ' [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls /Users/amoroney/src/bcdo-training/salt/[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ stty sane
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ 
+[2013-10-08.13:54 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc ccccccccccccccc[A[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cstty sane[K
+[K
+[K[A[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cbp[Kexport PS1='[\D{%Y-%m-%d}.\A \w \u@] \$  ' [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls /Users/amoroney/src/bcdo-training/salt/[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[Ksrc/bcdo-training/sallt [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[23Pcat Vagrantfile 
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[6Pvagrant upplugin install vagrant-saltls ../../[K[Ksalt/[Kvagrant upstty -a
+Usage: vagrant [-v] [-h] command [<args>]
+
+    -v, --version                    Print the version and exit.
+    -h, --help                       Print this help.
+
+Available subcommands:
+     box
+     destroy
+     halt
+     help
+     init
+     package
+     plugin
+     provision
+     reload
+     resume
+     ssh
+     ssh-config
+     status
+     suspend
+     up
+
+For help on any individual command run `vagrant COMMAND -h`
+[2013-10-08.13:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ stty -a
+speed 9600 baud; 33 rows; 102 columns;
+lflags: icanon isig iexten echo echoe -echok echoke -echonl echoctl
+	-echoprt -altwerase -noflsh -tostop -flusho pendin -nokerninfo
+	-extproc
+iflags: -istrip icrnl -inlcr -igncr ixon -ixoff ixany imaxbel -iutf8
+	-ignbrk brkint -inpck -ignpar -parmrk
+oflags: opost onlcr -oxtabs -onocr -onlret
+cflags: cread cs8 -parenb -parodd hupcl -clocal -cstopb -crtscts -dsrflow
+	-dtrflow -mdmbuf
+cchars: discard = ^O; dsusp = ^Y; eof = ^D; eol = <undef>;
+	eol2 = <undef>; erase = ^?; intr = ^C; kill = ^U; lnext = ^V;
+	min = 1; quit = ^\; reprint = ^R; start = ^Q; status = ^T;
+	stop = ^S; susp = ^Z; time = 0; werase = ^W;
+[2013-10-08.13:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ stty -a
+speed 9600 baud; 33 rows; 102 columns;
+lflags: icanon isig iexten echo echoe -echok echoke -echonl echoctl
+	-echoprt -altwerase -noflsh -tostop -flusho pendin -nokerninfo
+	-extproc
+iflags: -istrip icrnl -inlcr -igncr ixon -ixoff ixany imaxbel -iutf8
+	-ignbrk brkint -inpck -ignpar -parmrk
+oflags: opost onlcr -oxtabs -onocr -onlret
+cflags: cread cs8 -parenb -parodd hupcl -clocal -cstopb -crtscts -dsrflow
+	-dtrflow -mdmbuf
+cchars: discard = ^O; dsusp = ^Y; eof = ^D; eol = <undef>;
+	eol2 = <undef>; erase = ^?; intr = ^C; kill = ^U; lnext = ^V;
+	min = 1; quit = ^\; reprint = ^R; start = ^Q; status = ^T;
+	stop = ^S; susp = ^Z; time = 0; werase = ^W;
+[2013-10-08.13:57 ~/src/bcdo-training/acts/vsalt1 amoroney@] $ s[Kexport \h:\W \u\$'[1@P[1@S[1@1[1@ [1P[1@=[1@'
+Annes-MacBook-Pro:vsalt1 amoroney$cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc cccccccccccccccccccccccccccccccccccccccc
+bash: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc: command not found
+Annes-MacBook-Pro:vsalt1 amoroney$tty
+/dev/ttys001
+Annes-MacBook-Pro:vsalt1 amoroney$set
+Apple_PubSub_Socket_Render=/tmp/launch-7aAUZQ/Render
+Apple_Ubiquity_Message=/tmp/launch-rRpvCH/Apple_Ubiquity_Message
+BASH=/bin/bash
+BASH_ARGC=()
+BASH_ARGV=()
+BASH_LINENO=()
+BASH_SOURCE=()
+BASH_VERSINFO=([0]="3" [1]="2" [2]="48" [3]="1" [4]="release" [5]="x86_64-apple-darwin12")
+BASH_VERSION='3.2.48(1)-release'
+BOXEN_BIN_DIR=/opt/boxen/bin
+BOXEN_CONFIG_DIR=/opt/boxen/config
+BOXEN_DATA_DIR=/opt/boxen/data
+BOXEN_ENV_DIR=/opt/boxen/env.d
+BOXEN_GITHUB_LOGIN=AnneTheAgile
+BOXEN_HOME=/opt/boxen
+BOXEN_LOG_DIR=/opt/boxen/log
+BOXEN_SETUP_VERSION=475608e
+BOXEN_SOCKET_DIR=/opt/boxen/data/project-sockets
+BOXEN_SRC_DIR=/Users/amoroney/src
+CFLAGS=-I/opt/boxen/homebrew/include
+COLUMNS=102
+COMMAND_MODE=unix2003
+DIRSTACK=()
+DISPLAY=/tmp/launch-Ee3FUa/org.macosforge.xquartz:0
+EUID=501
+GROUPS=()
+HISTFILE=/Users/amoroney/.bash_history
+HISTFILESIZE=500
+HISTSIZE=500
+HOME=/Users/amoroney
+HOMEBREW_CACHE=/opt/boxen/cache/homebrew
+HOSTNAME=Annes-MacBook-Pro.local
+HOSTTYPE=x86_64
+IFS=$' \t\n'
+LANG=en_US.UTF-8
+LDFLAGS=-L/opt/boxen/homebrew/lib
+LINES=33
+LOGNAME=amoroney
+MACHTYPE=x86_64-apple-darwin12
+MAILCHECK=60
+MANPATH=/opt/boxen/homebrew/share/man:
+NODENV_ROOT=/opt/boxen/nodenv
+OLDPWD=/Users/amoroney/src/bcdo-training/acts
+OPTERR=1
+OPTIND=1
+OSTYPE=darwin12
+PATH=bin:/opt/boxen/rbenv/shims:/opt/boxen/rbenv/bin:/opt/boxen/rbenv/plugins/ruby-build/bin:node_modules/.bin:/opt/boxen/nodenv/shims:/opt/boxen/nodenv/bin:/opt/boxen/bin:/opt/boxen/homebrew/bin:/opt/boxen/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin
+PIPESTATUS=([0]="0")
+PPID=878
+PS1='\h:\W \u\$'
+PS2='> '
+PS4='+ '
+PWD=/Users/amoroney/src/bcdo-training/acts/vsalt1
+RBENV_ROOT=/opt/boxen/rbenv
+SECURITYSESSIONID=186a4
+SHELL=/bin/bash
+SHELLOPTS=braceexpand:emacs:hashall:histexpand:history:interactive-comments:monitor
+SHLVL=2
+SSH_AUTH_SOCK=/tmp/launch-OTNYZ1/Listeners
+TERM=xterm-256color
+TERM_PROGRAM=Apple_Terminal
+TERM_PROGRAM_VERSION=309
+TERM_SESSION_ID=FCC0ABB6-A48E-4155-AD46-3BE3175F6F9D
+TMPDIR=/var/folders/4f/b8gwyhg905x94twqw2pbklyw0000gn/T/
+TRAINING=/Users/amoroney/src
+UID=501
+USER=amoroney
+_=tty
+__CF_USER_TEXT_ENCODING=0x1F5:0:0
+Annes-MacBook-Pro:vsalt1 amoroney$
+Annes-MacBook-Pro:vsalt1 amoroney$
+Annes-MacBook-Pro:vsalt1 amoroney$nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn nnnnnnnnnn
+bash: nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn: command not found
+Annes-MacBook-Pro:vsalt1 amoroney$exit
+exit
+
+Script done on Tue Oct  8 14:08:52 2013
