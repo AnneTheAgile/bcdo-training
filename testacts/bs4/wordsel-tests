@@ -1,13 +1,13 @@
 # tests for wordsel
 
-! wordsel 2 4
+! ./wordsel 2 4
 <a1 b1 c1 d1 e1 f1 g1
 <g2 h2 i2 j2 k2 l2 m2
 >c1 d1 e1
 >i2 j2 k2
 ?0
 
-! wordsel 2 4
+! ./wordsel 2 4
 <
 <xxx
 >

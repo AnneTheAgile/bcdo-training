@@ -19,7 +19,8 @@ testcases()
 
 runtest()
 {
-	declare tf="$1" tmpf="$2" outf="$3"
+	declare tf="$1" outf="$2"
+	declare tmpf="$LOGDIR/s2-out.tmp"
 	declare xstat
 
 	$DFLAG && echo "+ $t"
@@ -37,7 +38,7 @@ runtest()
 			"shunit2" "$t" "$SECONDS"
 		if [ $xstat -ne 0 ]; then
 			printf '</failure>\n'
-			cat "$outf"
+			cat "$tmpf"
 			printf '</failure>\n'
 		fi
 		printf '</testcase>\n'
@@ -52,7 +53,7 @@ runsuite()
 	declare name="$1"
 	declare cases=$(testcases "$name" | sort)
 	declare tests=0 errors=0 failures=0
-	declare outf tmpf
+	declare outf="$LOGDIR/xml.tmp"
 	declare xstat
 
 	if [ -z "$cases" ]; then
@@ -67,9 +68,7 @@ runsuite()
 	mkdir -p $LOGDIR
 
 	for t in $cases; do
-		outf="$LOGDIR/$tests.out"
-		tmpf="$LOGDIR/$tests.tmp"
-		if ! runtest "$t" "$tmpf" "$outf"; then
+		if ! runtest "$t" "$outf"; then
 			FAILED=1
 			((failures++))
 		fi
@@ -80,11 +79,7 @@ runsuite()
 	{
 	printf '<testsuite name="%s" tests="%d" errors="%d" failures="%d">\n' \
 		"$name" "$tests" "$errors" "$failures"
-	((i=0))
-	for t in $cases; do
-		cat "$LOGDIR/$i.out"
-		((i++))
-	done
+	cat "$outf"
 	printf '</testsuite>\n'
 	} >> $XMLFILE
 	fi

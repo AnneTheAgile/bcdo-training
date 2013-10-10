@@ -14,6 +14,7 @@ Students are expected to:
 * Shell script tests are to be done with shunit2 (`gen_test_results.sh`)
 <http://code.google.com/p/shunit2/> ,
 and/or shiot (`shiot-xunit`).
+<https://github.com/dfong/shiot/blob/master/shiot.md>
 For your convenience, shunit2 and shiot are included
 in this repo's bin directory.
 shunit2 is free software from google covered by the GNU Lesser GPL.

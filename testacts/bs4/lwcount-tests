@@ -1,6 +1,6 @@
 # tests for lwcount
 
-! lwcount
+! ./lwcount
 <a b c d e f g
 <x y z
 <

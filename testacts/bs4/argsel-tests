@@ -1,13 +1,13 @@
 # argsel tests
 
-! argsel 1 w1 w2 w3 w4 w5
+! ./argsel 1 w1 w2 w3 w4 w5
 >w1
 ?0
 
-! argsel 1
+! ./argsel 1
 >
 ?0
 
-! argsel 100 w1 w2
+! ./argsel 100 w1 w2
 >
 ?0
